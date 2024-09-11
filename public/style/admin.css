@@ -1,0 +1,13 @@
+body {
+  background-color: #e3f2fd;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bold;
+}
+
+.active {
+  color: yellow;
+}
+
+th {
+  color: rgb(11, 241, 30);
+}

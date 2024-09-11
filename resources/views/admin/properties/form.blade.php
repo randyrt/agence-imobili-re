@@ -17,7 +17,7 @@
          </div>
     </div>
 
-     @include('shared.input', ["type" => "textarea","class" => "col", "label" => "Description", "name" => "description", "value" => $property->description])
+     @include('shared.input', ["type" => "textarea", "class" => "col", "label" => "Description", "name" => "description", "value" => $property->description])
 
      <div class="row">
         @include('shared.input', ["class"  => "col", "label" => "Pièce", "name" => "rooms", "value" => $property->rooms])
@@ -30,7 +30,9 @@
         @include('shared.input', ["class"  => "col", "label" => "Ville", "name" => "city", "value" => $property->city])
         @include('shared.input', ["class"  => "col", "label" => "Code postal", "name" => "postal_code", "value" => $property->postal_code])
       </div>
-       @include('shared.checkbox', ["label" => "Vendu", "name" => "sold", "value" => $property->sold])
+      
+      @include('shared.select', ["label" => "Choisir les options", "name" => "options", "value" => $property->option()->pluck('id'), "multiple" => "true" ])
+      @include('shared.checkbox', [ "class" => "mt-3","label" => "Vendu", "name" => "sold", "value" => $property->sold, "options" => $options])
 
     <div>
       <button class="btn btn-primary mt-2" id="success">

@@ -5,15 +5,15 @@
 
   <div class="d-flex justify-content-between align-items-center">
      <h1>@yield('title')</h1>
-     <a href="{{route('admin.property.create')}}" class="btn btn-success">Ajouter un bien</a>
+     <a href="{{route('admin.property.create')}}" class="btn btn-primary">Ajouter un bien</a>
   </div>
- 
+ <div class="container card border-info"  style="background-color:blueviolet;">
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Titre</th>
-        <th>Surface</th>
-        <th>Prix</th>
+        <th>Surface en m²</th>
+        <th>Prix en ariary</th>
         <th>Ville</th>
         <th class="text-end">Actions</th>
       </tr>
@@ -27,11 +27,12 @@
         <td>{{$property->city}}</td>
         <td>
           <div class="d-flex gap-2 w-100 justify-content-end">
+            <a href="{{route('property.show', ['slug' => $property->getSlug(), 'property'=> $property])}}" class="btn btn-info border-primary">voir le bien</a>
             <a href="{{route("admin.property.edit", $property)}}" class="btn btn-primary" id="edit">Editer</a>
             <form action="{{route("admin.property.destroy", $property)}} " method="post">
               @csrf
               @method("delete")
-              <button class="btn btn-danger" id="delete">
+              <button class="btn btn-danger">
                 Supprimer
               </button>
             </form>
@@ -41,40 +42,8 @@
       @endforeach
     </tbody>
   </table>
-  {{$properties->links()}}
-
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-      document.getElementById('delete').addEventListener('click', function () {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "Vouz pouver encore revenir!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'cancel',
-        cancelButtonText: 'delete',
-        timer: 50000,
-        timerProgressBar: true, // Optional: Shows a progress bar
-        allowOutsideClick: false, // Optional: Prevent closing by clicking outside
-        allowEscapeKey: false, // Optional: Prevent closing with the Escape key
-        allowEnterKey: false // Optional: Prevent closing with the Enter key
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire(
-            'Deleted!',
-            'Your item has been deleted.',
-            'success'
-          );
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            'Cancelled',
-            'Your item is safe :)',
-            'error'
-          );
-        }
-      });
-    });
-</script>
+  </div>
+  <div class="mt-3">
+     {{$properties->links()}}
+  </div>
 @endsection
