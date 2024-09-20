@@ -4,10 +4,11 @@ namespace App\Http\Controllers\admin;
 
 use App\Models\Option;
 use App\Models\Property;
-use App\Http\Controllers\Controller;
 use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Auth\AuthManager;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\searchPropertyRequest;
 use App\Http\Requests\admin\PropertyFormRequest;
 
@@ -18,7 +19,7 @@ class propertyController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(Property::class, 'property');
+       // $this->authorizeResource(Property::class, 'property');
     }
 
 
@@ -29,7 +30,7 @@ class propertyController extends Controller
     {
         // dd($auth->user());
 
-        Auth::user()->can('viewany', Property::class);
+      //  Auth::user()->can('viewany', Property::class);
         return view(
             "admin.properties.index",
             [
@@ -69,13 +70,38 @@ class propertyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(PropertyFormRequest $request, Property $property)
     {
-
+   
         $property = Property::create($request->validated());
         $property->option()->sync($request->validated("options"));
-        return to_route('admin.property.index')->with("success", "Les biens ont été bien sauvegerdés");
-    }
+
+   
+        $images = ['image1', 'image2', 'image3'];
+
+        foreach ($images as $image) {
+            if ($request->hasFile($image)) {
+                $oldImagePath = $property->$image;
+                if ($oldImagePath) {
+                    Storage::disk('public')->delete($oldImagePath);
+                }
+
+                $imagePath = $request->file($image)->store('immeubles', 'public');
+                $property->$image = $imagePath;
+            }
+        }
+
+            $property->save();
+
+        return to_route('admin.property.index')->with("success", "Les biens ont été bien sauvegardés");
+   }
+
+
+       /* $property = Property::create($request->validated());
+        $property->option()->sync($request->validated("options"));
+        return to_route('admin.property.index')->with("success", "Les biens ont été bien sauvegerdés");*/
+    
 
 
     /**
@@ -101,11 +127,34 @@ class propertyController extends Controller
      */
     public function update(PropertyFormRequest $request, Property $property)
     {
+        $property->option()->sync($request->validated('options'));
+
+        $images = ['image1', 'image2', 'image3'];
+
+        foreach ($images as $image) {
+            if ($request->hasFile($image)) {
+                $oldImagePath = $property->$image;
+                if ($oldImagePath) {
+                    Storage::disk('public')->delete($oldImagePath);
+                }
+
+                $imagePath = $request->file($image)->store('immeubles', 'public');
+                $property->$image = $imagePath;
+            }
+        }
+        
+        $property->save();
+
+        return to_route('admin.property.index')->with('success', 'Les biens ont été bien modifiés');
+    }
+
+    /*public function update(PropertyFormRequest $request, Property $property)
+    {
         $property->option()->sync($request->validated("options"));
         $property->update($request->validated());
         return to_route('admin.property.index')->with("success", "Les biens ont été bien modifié");
 
-    }
+    } */
 
     /**
      * Remove the specified resource from storage.

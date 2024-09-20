@@ -4,7 +4,8 @@
 
 @section('content')
   <h1>@yield('title')</h1>
-  <form class="vstack gap-2" action="{{route($property->exists ? "admin.property.update" : "admin.property.store",  $property)}}" method="post">
+  <form class="vstack gap-2" action="{{route($property->exists ? "admin.property.update" : "admin.property.store",  $property)}}" method="post" 
+    enctype="multipart/form-data">
 
     @csrf
     @method($property->exists ? "put" : "post")
@@ -29,6 +30,12 @@
         @include('shared.input', ["class"  => "col", "label" => "adresse", "name" => "adress", "value" => $property->adress])
         @include('shared.input', ["class"  => "col", "label" => "Ville", "name" => "city", "value" => $property->city])
         @include('shared.input', ["class"  => "col", "label" => "Code postal", "name" => "postal_code", "value" => $property->postal_code])
+      </div>
+
+      <div class="row">
+        @include('shared.input', ["type" => "file", "class"  => "col", "label" => "image1", "name" => "image1", "value" => $property->image1])
+        @include('shared.input', ["type" => "file", "class"  => "col", "label" => "image2", "name" => "image2", "value" => $property->image2])
+        @include('shared.input', ["type" => "file", "class"  => "col", "label" => "image3", "name" => "image3", "value" => $property->image2])
       </div>
       
       @include('shared.select', ["label" => "Choisir les options", "name" => "options", "value" => $property->option()->pluck('id'), "multiple" => "true" ])

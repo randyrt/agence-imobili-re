@@ -3,8 +3,28 @@
 @section('title', $property->title)
 
 @section('content')
-
 <div class="container mt-2 card border-primary"  style="background-color: rgb(0 0 0 /20%);">
+    <div>
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+          @foreach (['image1', 'image2', 'image3'] as $index => $item)
+            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                <img src="{{ asset('storage/'.$property->$item) }}" alt="{{ $item }}" class="d-block w-100" style="height: 700px; filter: brightness(50%)">
+            </div>
+          @endforeach
+        </div>
+        <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
+    </div>
+</div>
+
+  
   <h1 class="text-black">{{$property->title}}</h1>
   <h2 class="text-black" >{{$property->rooms}} pièces - {{$property->surfaces}} m²</h2>
   <div class="text-black fw-bold" style="font-size: 2rem">

@@ -28,6 +28,9 @@ class Property extends Model
         "adress",
         "postal_code",
         "sold",
+        "image1",
+        "image2",
+        "image3"
     ];
 
     protected $casts = [
