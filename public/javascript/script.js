@@ -1,1 +1,1 @@
-new TomSelect('select[multiple]', { plugins: { remove_button: { title: 'supprimer' } } })
+new TomSelect('select[multiple]', { plugins: { remove_button: { title: 'supprimer' } } });
