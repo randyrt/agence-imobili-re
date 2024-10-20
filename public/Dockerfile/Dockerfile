@@ -34,6 +34,6 @@ COPY --chown=www-data:www-data . /var/www
 # Changer l'utilisateur actuel à www-data
 USER www-data
 
-# Exposer le port 9000 et démarrer PHP-FPM
+# Exposer le port 80 et démarrer PHP-FPM
 EXPOSE 80
 CMD ["php-fpm"]
