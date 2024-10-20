@@ -2,7 +2,7 @@ services:
   nginx:
     image: nginx:1.22-alpine
     ports:
-      - "80:80"
+      - "10000:10000"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./:/code
