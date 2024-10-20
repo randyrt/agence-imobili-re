@@ -35,5 +35,5 @@ COPY --chown=www-data:www-data . /var/www
 USER www-data
 
 # Exposer le port  et démarrer PHP-FPM
-EXPOSE 10000
+EXPOSE 80
 CMD ["php-fpm"]
